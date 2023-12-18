@@ -1,3 +1,8 @@
 #!/bin/bash
 username=$1
-existing_user=$(cat /etc/passwd |grep -i -w pollinate| cut -d ":" -f 1)
+existing_user=$(cat /etc/passwd |grep -i -w ${username}| cut -d ":" -f 1)
+if [${username} = ${existing_user}]; then
+echo "the user ${username} exists"
+else
+echo "lets create user"
+fi
