@@ -2,7 +2,6 @@
 set +x
 if [ $# -gt 0 ]; then
     for username in $@; do
-        username=$1
         existing_user=$(cat /etc/passwd | grep -i -w ${username} | cut -d ":" -f 1)
         if [ "${username}" = "${existing_user}" ]; then
             echo "the user ${username} exists"
