@@ -15,7 +15,7 @@ if [ $# -gt 0 ]; then
             password=India@${RANDOM}${spec}
             echo ${username}:${password} | sudo chpasswd
             passwd -e ${username}
-            curl -X POST -H 'Content-type: application/json' --data '{"text": "Password for ${username} is ${password}"}'  ${slackweb}
+            curl -X POST -H 'Content-type: application/json' --data '{"text": "Password for \"${username}"\ is \"${password}""\}'  ${slackweb}
         fi
 
     done
