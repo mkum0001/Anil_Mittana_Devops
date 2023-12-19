@@ -9,7 +9,7 @@ if [ $# -gt 0 ]; then
         echo "lets create user"
         sudo useradd -m ${username} --shell /bin/bash
         sudo usermod -aG sudo ${username}
-        echo '${username} ALL=(ALL) NOPASSWD: ALL' | sudo tee -a /etc/sudoers >>dev/nulll
+        echo '${username} ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
         spec=$(echo '!@#$%^&*()_' | fold -1 | shuf | head -1)
         password=India@${RANDOM}${spec}
         echo ${username}:${password} | sudo chpasswd
