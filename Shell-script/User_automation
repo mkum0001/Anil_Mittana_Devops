@@ -1,8 +1,19 @@
 #!/bin/bash
-username=$1
-existing_user=$(cat /etc/passwd |grep -i -w ${username}| cut -d ":" -f 1)
-if [${username} = ${existing_user}]; then
-echo "the user ${username} exists"
+if [$# -gt 0 ]; then
+    username=$1
+    existing_user=$(cat /etc/passwd | grep -i -w ${username} | cut -d ":" -f 1)
+    if [${username} = ${existing_user}]; then
+        echo "the user ${username} exists"
+    else
+        echo "lets create user"
+        sudo useradd -m ${username} --shell /bin/bash
+        sudo usermod -aG sudo ${username}
+        echo '${username} ALL=(ALL) NOPASSWD: ALL' | sudo tee -a /etc/sudoers
+        spec=$(echo '!@#$%^&*()_' | fold -1 | shuf | head -1)
+        password=India@$(RANDOM)${spec}
+        echo ${username}:${password} | sudo chpasswd
+        passwd -e ${username}
+    fi
 else
-echo "lets create user"
+    echo "provide username"
 fi
