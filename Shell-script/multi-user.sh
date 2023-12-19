@@ -1,5 +1,6 @@
 #!/bin/bash
 set +x
+slackweb=https://hooks.slack.com/services/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
 if [ $# -gt 0 ]; then
     for username in $@; do
         existing_user=$(cat /etc/passwd | grep -i -w ${username} | cut -d ":" -f 1)
@@ -14,7 +15,7 @@ if [ $# -gt 0 ]; then
             password=India@${RANDOM}${spec}
             echo ${username}:${password} | sudo chpasswd
             passwd -e ${username}
-            echo "the password for ${username} is ${password}"
+            curl -X POST -H 'Content-type: application/json' --data '{"text": "Password for ${username} is ${password}"}'  ${slackweb}
         fi
 
     done
