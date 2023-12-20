@@ -8,11 +8,11 @@ resource "random_password" "password2" {
   length           = 16
   special          = true
   override_special = "!#$%&*()-_=+[]{}<>:?"
-  depends_on = [ random_password.password3 ]
+  depends_on = [ random_password.password1 ]
 }
 resource "random_password" "password1" {
   length           = 16
   special          = true
   override_special = "!#$%&*()-_=+[]{}<>:?"
-  depends_on = [ random_password.password2 ]
+  depends_on = [ random_password.password3 ]
 }
