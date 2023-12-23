@@ -4,7 +4,7 @@ resource "azurerm_network_security_group" "Anil-nsg" {
   resource_group_name = azurerm_resource_group.Anil-rg1.name
 
   security_rule {
-    name                       = "test123"
+    name                       = "test1235"
     priority                   = 100
     direction                  = "Inbound"
     access                     = "Allow"
@@ -17,5 +17,6 @@ resource "azurerm_network_security_group" "Anil-nsg" {
 
   tags = {
     environment = "Production"
+    owner= "ram"
   }
 }
