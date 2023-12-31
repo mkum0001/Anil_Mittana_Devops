@@ -1,0 +1,2 @@
+### outout format
+current_date=$(date +"%Y-%m-%d %H:%M:%S")
