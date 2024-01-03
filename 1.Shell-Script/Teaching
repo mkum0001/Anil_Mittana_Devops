@@ -1,2 +1,17 @@
 ### outout format
 current_date=$(date +"%Y-%m-%d %H:%M:%S")
+
+
+curl https://pokeapi.co/api/v2/pokemon/ditto
+curl https://pokeapi.co/api/v2/pokemon
+curl "https://pokeapi.co/api/v2/pokemon?offset=20&limit=20"
+curl "https://pokeapi.co/api/v2/pokemon?offset=20&limit=20"  | jq
+curl "https://pokeapi.co/api/v2/pokemon?offset=20&limit=20"  | jq.results[]
+curl "https://pokeapi.co/api/v2/pokemon?offset=20&limit=20"  | jq results[]
+curl "https://pokeapi.co/api/v2/pokemon?offset=20&limit=20"  | jq .results[]
+curl "https://pokeapi.co/api/v2/pokemon?offset=20&limit=20"  | jq .results[].name
+curl "https://pokeapi.co/api/v2/pokemon?offset=20&limit=20"  | jq .results[].name -r
+curl -s "https://pokeapi.co/api/v2/pokemon?offset=20&limit=20"  | jq .results[].name -r
+curl -s "https://pokeapi.co/api/v2/pokemon?offset=20&limit=20"  | jq .results[].name -r | wc -l
+
+aws ec2 describe-vpcs | jq ".Vpcs[1].VpcId"
