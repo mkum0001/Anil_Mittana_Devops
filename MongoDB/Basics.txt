@@ -1,0 +1,52 @@
+MongoDB:
+
+DCD 
+
+database
+Collections===== table
+Documents   ----json
+
+I read there are three topologies for mongodb
+
+standalone
+replicaset
+sharded
+
+## to check running mongod Process ----  mongod is the core process of mongodb system
+ps aux | grep -v grep | grep mongod
+
+## to connect to mongodb -----   javascript shell interface to connect to mongodb
+
+mongosh mongodb://127.0.0.1:27017
+
+##creates user in admin database
+
+db.createUser({
+  user: "Anil",
+  pwd: "dba123",
+  roles: [
+    { role: "readWrite", db: "admin" },
+    // Add additional roles if needed
+  ]
+})
+
+
+## drops user
+
+db.dropUser("Anil")
+
+## how to connect as dba user
+
+mongosh mongodb://dba:secret@127.0.0.1:27017
+
+
+## to see the current user details
+
+db.runCommand({connectionStatus:1})
+{
+  authInfo: {
+    authenticatedUsers: [ { user: 'dba', db: 'admin' } ],
+    authenticatedUserRoles: [ { role: 'readWriteAnyDatabase', db: 'admin' } ]
+  },
+  ok: 1
+}
