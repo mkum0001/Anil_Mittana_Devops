@@ -9,7 +9,6 @@
 #!/bin/bash
 if [ $# -gt 0 ]; then
     for USERNAME in $@; do
-          
         EXISTING_USER=$(cat /etc/passwd | grep -i -w ${USERNAME} | cut -d ':' -f 1)
         if [ "${USERNAME}" = "${EXISTING_USER}" ]; then
             echo "The User "${USERNAME}" Already Exists."
@@ -25,6 +24,6 @@ if [ $# -gt 0 ]; then
             echo "The Temporary Credentails are ${USERNAME} and ${PASSWORD}"
         fi
     done
-     else
+else
     echo "Provide Valid Argument."
 fi
