@@ -1,5 +1,5 @@
 #!/bin/bash
-
+SLACK_WEB=https://hooks.slack.com/services/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
 if [ $# -gt 0 ]; then
     for USERNAME in $@; do
           
@@ -16,6 +16,9 @@ if [ $# -gt 0 ]; then
             echo "${USERNAME}:${PASSWORD}" | sudo chpasswd
             sudo passwd -e "${USERNAME}"
             echo "The Temporary Credentials for ${USERNAME} are: ${PASSWORD}"
+            curl -X POST ${SLACK_WEB} -sL -H 'Content-type: application/json' --data "{"text": \"Username is: ${USERNAME}\"}" >>/dev/null
+            curl -X POST ${SLACK_WEB} -sL -H 'Content-type: application/json' --data "{"text": \"Temporary Password Is: ${PASSWORD}  Reset This Password Immediatly.\"}" >>/dev/null
+
         fi
     done
 else
