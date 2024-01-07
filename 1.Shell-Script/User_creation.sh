@@ -9,7 +9,7 @@
 #!/bin/bash
 if [ $# -gt 0 ]; then
     USERNAME=$1
-    slackweb= https://hooks.slack.com/services/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
+    slackweb=https://hooks.slack.com/services/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
     EXISTING_USER=$(cat /etc/passwd | grep -i -w ${USERNAME} | cut -d ':' -f 1)
     if [ "${USERNAME}" = "${EXISTING_USER}" ]; then
         echo "The User "${USERNAME}" Already Exists."
