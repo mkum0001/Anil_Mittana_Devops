@@ -9,7 +9,7 @@
 #!/bin/bash
 if [ $# -gt 0 ]; then
     USERNAME=$1
-    slackweb=https://hooks.slack.com/services/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
+    SLACK_WEB=https://hooks.slack.com/services/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
     EXISTING_USER=$(cat /etc/passwd | grep -i -w ${USERNAME} | cut -d ':' -f 1)
     if [ "${USERNAME}" = "${EXISTING_USER}" ]; then
         echo "The User "${USERNAME}" Already Exists."
@@ -23,7 +23,9 @@ if [ $# -gt 0 ]; then
         echo "${USERNAME}:${PASSWORD}" | sudo chpasswd
         passwd -e ${USERNAME}
         echo "The Temporary Credentails are ${USERNAME} and ${PASSWORD}"
-        curl -X POST -H 'Content-type: application/json' --data '{"text": "Password for \"${username}"\ is \"${password}""\}'  ${slackweb}
+        curl -X POST ${SLACK_WEB} -sL -H 'Content-type: application/json' --data "{"text": \"Username is: ${USERNAME}\"}" >>/dev/null
+        curl -X POST ${SLACK_WEB} -sL -H 'Content-type: application/json' --data "{"text": \"Temporary Password Is: ${PASSWORD}  Reset This Password Immediatly.\"}" >>/dev/null
+
     fi
 else
     echo "Provide Valid Argument."
