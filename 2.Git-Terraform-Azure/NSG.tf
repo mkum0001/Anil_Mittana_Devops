@@ -17,6 +17,6 @@ resource "azurerm_network_security_group" "Anil-nsg" {
 
   tags = {
     environment = "Production"
-    owner="Anil"
+    owner       = "Anil"
   }
 }
