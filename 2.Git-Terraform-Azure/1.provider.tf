@@ -11,7 +11,7 @@ terraform {
     resource_group_name  = "Common-RG"
     storage_account_name = "anilmittanasa"
     container_name       = "tfstate"
-    key                  = "terraform.tfstate"
+    key                  = "class11.tfstate"
   }
 }
 
