@@ -8,12 +8,12 @@ terraform {
       source  = "hashicorp/aws"
     }
   }
-    backend "s3" {
-      bucket         = "mittanadevops235"
-      key            = "global/s3/mittanadevops235.tfstate"
-      region         = "us-east-1"
-      dynamodb_table = "devsecopsb38-terraform-locks"
-      encrypt        = true
-    }
+  backend "s3" {
+    bucket         = "mittanadevops235"
+    key            = "global/s3/mittanadevops235.tfstate"
+    region         = "us-east-1"
+    dynamodb_table = "devsecopsb38-terraform-locks"
+    encrypt        = true
+  }
 }
 
