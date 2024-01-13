@@ -16,3 +16,9 @@ resource "random_password" "password1" {
   override_special = "!#$%&*()-_=+[]{}<>:?"
   depends_on       = [random_password.password3]
 }
+resource "random_password" "password4" {
+  length           = 16
+  special          = true
+  override_special = "!#$%&*()-_=+[]{}<>:?"
+  depends_on       = [random_password.password3]
+}
