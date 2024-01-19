@@ -1,0 +1,92 @@
+{
+    "_comment": "AMI Image With Docker & Nginx",
+    "variables": {
+        "region": "",
+        "source_ami": "",
+        "instance_type": "",
+        "vpc_id": "",
+        "subnet_id": ""
+    },
+    "_comment1": "packer build -var \"aws_secret_key=foo\" packer.json",
+    "_comment2": "packer build -var-file vars.json packer.json",
+    "builders": [
+        {
+            "type": "amazon-ebs",
+            "region": "{{user 'region'}}",
+            "source_ami": "{{user 'source_ami'}}",
+            "instance_type": "{{user 'instance_type'}}",
+            "ssh_username": "ubuntu",
+            "ami_name": "DevSecOps-B38-Ansible-{{isotime | clean_resource_name}}",
+            "vpc_id": "{{user 'vpc_id'}}",
+            "subnet_id": "{{user 'subnet_id'}}",
+            "tags": {
+                "Name": "DevSecOps-B38-Ansible-{{isotime | clean_resource_name}}"
+            }
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "inline": [
+                "sudo useradd -m ansibleadmin --shell /bin/bash",
+                "sudo mkdir -p /home/ansibleadmin/.ssh",
+                "sudo chown -R ansibleadmin /home/ansibleadmin/",
+                "sudo touch /home/ansibleadmin/.ssh/authorized_keys",
+                "sudo usermod -aG sudo ansibleadmin",
+                "echo 'ansibleadmin ALL=(ALL) NOPASSWD: ALL' | sudo tee -a /etc/sudoers",
+                "echo 'ssh-rsa MIIEowIBAAKCAQEAkD+q2EC9nlBqxCHzh2jdn/irt0jrgAeZb8MPKh5QoAsGUMaYHU7VViLiwt2iZ8I/JI5QWd7WkeC1JwJbInJXJqgiJG7/h/cEzPz1SwU9AfXq/QSU9RHywrcsVcK+qU5wF/u8+PN3yGQ47LW5ZWTNBCg0J4mhSHi3Pd1mfBHWBHXtuTFYo0ft2VRG/z2czePDPx6xo5K3CYJ2qb6zdNvqsFtc6E3wT3d7lW9siZLSmS0VjIxraEpAp/FPStBZDdORLa+/BAvYY0fqxzTC725bNNENtk57tiwD9egf2LvutmjFJ67k8oj/85xfxwzkLEA9TM4Cq9fcDrf8byj5FM91UQIDAQABAoIBABSxrZbcotdlfgupO0C/4Jukly3yPibd8DtCZpiKRNLRAhTwiL4boyt6UcHW/geYrGpYKFrcRzgiXpq8Ecr9UFdxY4SKkAo3e+7Uk3QxyjDP0Oh/kccezg71LF0ZVTUA1b/7E387noGXLzt2TqSnM2pXQjQx4Ht/JfqwGpXOEUAOWwOrQknNiknKAPhAJx6WBQGnP3IWzCogsF6rZQxJa8OCJPBQcm1kSRGFYktYI8RGfuN258YEMvUynFqat6GYrNJCUQDZBnHfmuYqVt55SwBrflPe0qlW0t4C9nDPUOHBCkoz3zXTvO2QZEpKpG/5Vzhvm0jSIRj3hFIP9MGeOckCgYEA5kTtWbm6HtdEC6yeJrol431GsoiybCaUxc1zQB0HjfB0GZPjJF1dmQZ1/mFp+M51jJTL+OZ/k9Z8n1pKflnu2ekmNEpy6bzLPUH7QK5w4/QT5/iSWnX5P4l/4GqiC3gOVsHLONVWFw9PmFduJ2AVN5p+KNdvy529bm74Kwob45sCgYEAoF4KN/QtePwslTk3MbbO0jTZU/ddJ4Tb3rr5SIyH2XvxtNvr8oFbVETYwu0CDCcfWhTyL9O/3byOZycPIfpMHg5gZJLgx5Sfug05J2X2LtVkQQqKqz03m7jChjrPSmjU2SdCjTDi5H/0gk/mp5jgRoF/EoHdzShfGc1SHCTeR4MCgYEAu9Qpj3DyIsoRFTy+3HQnB8Neca8TayilXhvSENAdI2iqK1r4guctu+8LPG6VlIBEXmHZZ7QNCLiCezGZZitRq6qEoU7BIWwAlH1Hx2EDcM3dlvCp4OQuZedwycvxVk2d1KLLdBaA3Np+YJOgpLm5VNvOYN4qsPqAVJ5sDB941FUCgYB2bbxCIhLKu//4m25FSmlmFx0/wveKTbVJwO6DQzS3ya5wD9EpH5pgmw8wtHLEosemcL2B0HBqweqwBspIH13C/H73Bvj0qq9iaI2CqOurHm+REMXjO6wrVcBh/GBE5TH6w+GD/0wvzsa0zWja8C0AJHXBJyKzdVL17QjsO9XjHQKBgDi+UDtF1NoXeulRw+8SJGHsa53q5X4BJx/QCccE4HdnCkeswljPWGlaQF7yBxYcaofvr7FI0KwvzB5LtuCHDh5ic25cpuJ4EDzSN6FBZY2AMx24S2vK5qtJa2I3f9mSaFsEVDR+/y9KaWre87gciVuIiFYwldeDPh9cHxzSKXrW' | sudo tee /home/ansibleadmin/.ssh/authorized_keys"
+            ]
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "sudo apt update -y",
+                "curl https://get.docker.com | bash"
+            ]
+        },
+        {
+            "type": "file",
+            "source": "docker.service",
+            "destination": "/tmp/docker.service"
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "sudo cp /tmp/docker.service /lib/systemd/system/docker.service",
+                "sudo usermod -a -G docker ubuntu",
+                "sudo usermod -a -G docker ansibleadmin",
+                "sudo systemctl daemon-reload",
+                "sudo service docker restart"
+            ]
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "sudo useradd --no-create-home --shell /bin/false node_exporter",
+                "wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz",
+                "tar xvf node_exporter-1.3.1.linux-amd64.tar.gz",
+                "sudo cp node_exporter-1.3.1.linux-amd64/node_exporter /usr/local/bin/",
+                "sudo chown node_exporter:node_exporter /usr/local/bin/node_exporter"
+            ]
+        },
+        {
+            "type": "file",
+            "source": "node_exporter.service",
+            "destination": "/tmp/node_exporter.service"
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "sudo cp /tmp/node_exporter.service /etc/systemd/system/node_exporter.service",
+                "sudo systemctl enable node_exporter",
+                "rm -rf node_exporter*"
+            ]
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "sudo apt install -y unzip stress net-tools jq"
+            ]
+        }
+    ]
+}

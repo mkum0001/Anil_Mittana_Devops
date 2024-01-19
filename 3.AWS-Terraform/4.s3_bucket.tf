@@ -1,4 +1,4 @@
-# Commented due to state removal of resource using terraform state rm aws_s3_bucket.devsecopsb38tfstate
+# Commented due to state removal of resource using terraform state rm aws_s3_bucket.mittanadevops235
 # resource "aws_s3_bucket" "mittanadevops235" {
 #   bucket = var.tf_state_bucket
 #   tags = {
